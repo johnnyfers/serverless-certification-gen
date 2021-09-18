@@ -5,6 +5,7 @@ import path from 'path'
 import fs from 'fs'
 import handlebars from 'handlebars'
 import dayjs from 'dayjs'
+import { S3 } from 'aws-sdk'
 
 interface ICreateCertificate {
     id: string
@@ -61,7 +62,7 @@ export const handle = async (event) => {
 
     await page.setContent(content)
 
-    await page.pdf({
+    const pdf = await page.pdf({
         format: 'a4',
         landscape: true,
         printBackground: true,
@@ -71,10 +72,21 @@ export const handle = async (event) => {
 
     await browser.close()
 
+    const s3 = new S3()
+
+    await s3.putObject({
+        Bucket: process.env.AWS_BUCKET,
+        Key: `${id}.pdf`,
+        ACL: 'public-read',
+        Body: pdf,
+        ContentType: 'application/pdf'
+    }).promise()
+
     return {
         statusCode: 201,
         body: JSON.stringify({
-            message: 'Certificate created successfully'
+            message: 'Certificate created successfully',
+            url: `https://serverless-certificate-gen.s3.us-east-1.amazonaws.com/${id}.pdf`
         }),
         headers: {
             'Content-Type': 'application/jsonname'
