@@ -1,0 +1,25 @@
+service:
+  name: certificate
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+
+functions:
+  hello:
+    handler: src/functions/hello.handle
+    events:
+    - http:
+        path: /hello
+        method: GET
+        cors: true
