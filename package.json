@@ -5,6 +5,7 @@
   "main": "serverless.ts",
   "scripts": {
     "dev": "serverless offline",
+    "dynamo:start": "serverless dynamodb start",
     "deploy": "serverless deploy -v",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +15,9 @@
   "dependencies": {
     "@middy/core": "^1.5.2",
     "@middy/http-json-body-parser": "^1.5.2",
+    "chrome-aws-lambda": "^10.1.0",
+    "dayjs": "^1.10.7",
+    "handlebars": "^4.7.7",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
@@ -22,6 +26,7 @@
     "@types/node": "^16.9.2",
     "json-schema-to-ts": "^1.5.0",
     "serverless": "^2.23.0",
+    "serverless-dotenv-plugin": "^3.9.0",
     "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^8.2.0",
     "serverless-webpack": "^5.3.5",

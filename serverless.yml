@@ -5,8 +5,11 @@ plugins:
   - serverless-webpack
   - serverless-offline
   - serverless-dynamodb-local
+  - serverless-dotenv-plugin
 
 custom:
+  dotenv:
+    path: .env
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true
@@ -26,11 +29,11 @@ provider:
 
 functions:
   hello:
-    handler: src/functions/hello.handle
+    handler: src/functions/generateCertificate.handle
     events:
     - http:
-        path: /hello
-        method: GET
+        path: /generateCertificate
+        method: POST
         cors: true
 
 resources:
