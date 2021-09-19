@@ -28,13 +28,21 @@ provider:
   region: us-east-1
 
 functions:
-  hello:
+  generateCertificate:
     handler: src/functions/generateCertificate.handle
     events:
     - http:
         path: /generateCertificate
         method: POST
         cors: true
+  verifyCertificate:
+    handler: src/functions/verifyCertificate.handle
+    events:
+    - http:
+        path: /verifyCertificate/{id}
+        method: GET
+        cors: true
+  
 
 resources:
   Resources:
