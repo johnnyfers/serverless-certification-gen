@@ -25,6 +25,7 @@
     "@serverless/typescript": "^2.23.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/node": "^16.9.2",
+    "copy-webpack-plugin": "^9.0.1",
     "json-schema-to-ts": "^1.5.0",
     "puppeteer": "^10.2.0",
     "serverless": "^2.23.0",

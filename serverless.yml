@@ -21,12 +21,21 @@ custom:
       port: 8000
       inMemory: true
       migrate: true
-
-provider:
+ 
+provider: 
   name: aws
   runtime: nodejs14.x
   region: us-east-1
-
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
+    
 functions:
   generateCertificate:
     handler: src/functions/generateCertificate.handle
@@ -35,6 +44,12 @@ functions:
         path: /generateCertificate
         method: POST
         cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action: 
+          - dynamodb:Query
+          - dynamodb:PutItem
+        Resource: "arn:aws:dynamodb:${self.provider.region}:*:table/users_certificates"
   verifyCertificate:
     handler: src/functions/verifyCertificate.handle
     events:
@@ -42,7 +57,11 @@ functions:
         path: /verifyCertificate/{id}
         method: GET
         cors: true
-  
+    iamRoleStatements:
+      - Effect: Allow
+        Action: 
+          - dynamodb:Query
+        Resource: "arn:aws:dynamodb:${self.provider.region}:*:table/users_certificates"
 
 resources:
   Resources:
